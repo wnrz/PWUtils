@@ -7,11 +7,11 @@
 //
 
 #import "PWMultiLineTabButtonView.h"
-#import <BaseUtils/BaseTool.h>
+#import "BaseTool.h"
 #import <QuartzCore/QuartzCore.h>
 #import <SDAutoLayout/SDAutoLayout.h>
 //#import <BusUtils/BusUtils.h>
-#import <BaseUIKit/PWGradientView.h>
+#import "PWGradientView.h"
 @import Masonry;
 
 @interface PWMultiLineTabButtonView(){

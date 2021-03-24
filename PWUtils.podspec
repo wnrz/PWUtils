@@ -3,7 +3,7 @@ Pod::Spec.new do |s|
 
 
   s.name         = "PWUtils"
-  s.version      = "0.0.23"
+  s.version      = "0.0.1"
   s.summary      = "组件化UI支持库"
 
 
@@ -37,7 +37,6 @@ Pod::Spec.new do |s|
   s.resource_bundles = {'PWUtils' => ['PWUtils/PWKit/**/*.{storyboard,xib,png}']}
 
 
-  s.dependency 'BaseUtils'
   s.dependency 'MJExtension'
   s.dependency 'MJRefresh'
   s.dependency 'FDStackView'
@@ -46,7 +45,10 @@ Pod::Spec.new do |s|
   s.dependency 'IQKeyboardManager', '~> 6.4.0'
   s.dependency 'YBPopupMenu', '~> 1.1.2'
   s.dependency 'EllipsePageControl'
-
+  s.dependency 'SDAutoLayout'#, '~> 2.1.1'
+  s.dependency 'MBProgressHUD', '1.1.0'
+  s.dependency 'YYKit', '~> 1.0.9'
+  s.dependency 'SDWebImage'
 
 #  s.pod_target_xcconfig = {
 ##    'CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES' => 'YES',

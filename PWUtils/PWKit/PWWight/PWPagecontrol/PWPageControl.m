@@ -6,8 +6,8 @@
 //
 
 #import "PWPageControl.h"
-@import BaseUtils;
-
+#import "BaseTool.h"
+#import "NSBundle+PWBundleTool.h"
 #define kDotW 4  //圆点的宽度
 #define kDotW2 12  //圆点的宽度
 #define kDotH 4  //圆点的宽度

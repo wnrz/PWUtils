@@ -7,11 +7,13 @@
 //
 
 #import "PWTabButtonView.h"
-#import <BaseUtils/BaseTool.h>
 #import <QuartzCore/QuartzCore.h>
-#import <SDAutoLayout/SDAutoLayout.h>
 //#import <BusUtils/BusUtils.h>
-#import <BaseUIKit/PWGradientView.h>
+#import "PWGradientView.h"
+#import "BaseColors.h"
+#import "CommonMacro.h"
+#import "BaseTool.h"
+#import <SDAutoLayout/SDAutoLayout.h>
 @import Masonry;
 
 @interface PWTabButtonView(){

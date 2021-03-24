@@ -5,7 +5,6 @@
 //  Created by 王宁 on 2018/7/16.
 //
 
-#import <BaseUIKit/BaseUIKit.h>
 
 @protocol GlobalErrorVCDelegate<NSObject>
 

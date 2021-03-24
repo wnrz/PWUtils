@@ -6,9 +6,10 @@
 //  Copyright © 2017年 mac. All rights reserved.
 //
 #import "PWBannerView.h"
-#import "UIImageView+WebCache.h"
-#import <BaseUtils/BaseTool.h>
-#import <BaseUtils/NSBundle+PWBundleTool.h>
+#import "BaseTool.h"
+#import "NSBundle+PWBundleTool.h"
+#import <SDWebImage/SDWebImage.h>
+
 @interface PWBannerView(){
     NSInteger showIndex;
     NSInteger perIndex;

@@ -6,8 +6,8 @@
 //
 
 #import "GlobalErrorVC.h"
-#import <BaseUtils/BaseTool.h>
-#import <BaseUtils/NSBundle+PWBundleTool.h>
+#import "BaseTool.h"
+#import "NSBundle+PWBundleTool.h"
 @import Masonry;
 
 @interface GlobalErrorVC () {
