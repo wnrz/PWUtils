@@ -1,6 +1,6 @@
 //
 //  ZBBannerView.m
-//  SMCBProjcet
+//  PWUtils
 //
 //  Created by mac on 2017/5/11.
 //  Copyright © 2017年 mac. All rights reserved.
@@ -9,7 +9,8 @@
 #import "BaseTool.h"
 #import "NSBundle+PWBundleTool.h"
 #import <SDWebImage/SDWebImage.h>
-
+@import QuartzCore;
+@import CHIPageControl;
 @interface PWBannerView(){
     NSInteger showIndex;
     NSInteger perIndex;
@@ -17,13 +18,30 @@
     NSInteger scrollDelay;
 }
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
-@property (weak, nonatomic) IBOutlet UIPageControl *pageControl;
 @property (weak, nonatomic) IBOutlet UIImageView *bannerBG;
 @property (weak, nonatomic) IBOutlet UIImageView *banner1;
 @property (weak, nonatomic) IBOutlet UIImageView *banner2;
 @property (weak, nonatomic) IBOutlet UIImageView *banner3;
 
 @property (weak, nonatomic) IBOutlet UIButton *actionButton;
+
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *banner1_left;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *banner1_top;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *banner1_right;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *banner1_bottom;
+
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *banner2_left;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *banner2_top;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *banner2_right;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *banner2_bottom;
+
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *banner3_left;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *banner3_top;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *banner3_right;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *banner3_bottom;
+
+@property (weak, nonatomic) IBOutlet CHIPageControlAleppo *pageControlAleppo;
+
 @end
 
 @implementation PWBannerView
@@ -90,19 +108,52 @@
     [self makeImages];
 }
 
-- (void)setPageControl:(UIPageControl *)pageControl{
-    _pageControl = pageControl;
-    _pageControl.numberOfPages = 0;
+- (void)setPadding:(UIEdgeInsets)padding{
+    _padding = padding;
+    _banner1_left.constant = padding.left;
+    _banner1_top.constant = padding.top;
+    _banner1_right.constant = padding.right;
+    _banner1_bottom.constant = padding.bottom;
+    
+    _banner2_left.constant = padding.left;
+    _banner2_top.constant = padding.top;
+    _banner2_right.constant = padding.right;
+    _banner2_bottom.constant = padding.bottom;
+    
+    _banner3_left.constant = padding.left;
+    _banner3_top.constant = padding.top;
+    _banner3_right.constant = padding.right;
+    _banner3_bottom.constant = padding.bottom;
 }
+
+- (void)setImageCornerRadius:(CGFloat)imageCornerRadius{
+    _imageCornerRadius = imageCornerRadius;
+    _banner1.layer.cornerRadius = imageCornerRadius;
+    _banner1.layer.masksToBounds = true;
+    _banner2.layer.cornerRadius = imageCornerRadius;
+    _banner2.layer.masksToBounds = true;
+    _banner3.layer.cornerRadius = imageCornerRadius;
+    _banner3.layer.masksToBounds = true;
+}
+
+- (void)setPageControlAleppo:(CHIPageControlAleppo *)pageControlAleppo{
+    _pageControlAleppo = pageControlAleppo;
+    pageControlAleppo.padding = 5;
+    pageControlAleppo.radius = 4;
+    pageControlAleppo.numberOfPages = 0;
+    pageControlAleppo.inactiveTransparency = 1;
+//    pageControlAleppo.tintColor = 
+}
+
 - (void)makeImages{
-    _pageControl.numberOfPages = _images2.count + _images1.count;
+    _pageControlAleppo.numberOfPages = _images2.count + _images1.count;
     [[self class] cancelPreviousPerformRequestsWithTarget:self];
     [_scrollView setContentOffset:CGPointMake(_scrollView.frame.size.width, 0)];
     if (IsValidateArr(_images2) || IsValidateArr(_images1)) {
         [_scrollView setContentSize:CGSizeMake(_scrollView.frame.size.width * 3, 0)];
         if ((_images2.count + _images1.count) == 1) {
             _scrollView.scrollEnabled = NO;
-            _pageControl.hidden = YES;
+            _pageControlAleppo.hidden = YES;
         }
         perIndex = showIndex - 1;
         nextIndex = showIndex +1;
@@ -125,13 +176,14 @@
         [_banner2 sd_setImageWithURL:[self getImageUrlWithIndex:showIndex] placeholderImage:_placeholderImage];
         [_banner3 sd_setImageWithURL:[self getImageUrlWithIndex:nextIndex] placeholderImage:_placeholderImage];
     }
-    [_pageControl setCurrentPage:showIndex];
+    [_pageControlAleppo setProgress:showIndex];
     if ((_images2.count + _images1.count) > 1) {
         _scrollView.scrollEnabled = YES;
-        _pageControl.hidden = NO;
+        _pageControlAleppo.hidden = NO;
         [self performSelector:@selector(startScroll) withObject:nil afterDelay:scrollDelay];
     }
 }
+
 - (NSURL *)getImageUrlWithIndex:(NSInteger)imageIndex{
     NSURL *imageUrl;
     if ((_images2.count + _images1.count) > imageIndex) {
@@ -148,7 +200,7 @@
 }
 
 - (void)startScroll{
-    [_scrollView setContentOffset:CGPointMake(_scrollView.frame.size.width * 2, 0) animated:YES];
+//        [_scrollView setContentOffset:CGPointMake(_scrollView.frame.size.width * 2, 0) animated:YES];
 }
 
 - (IBAction)actionButtonPressed:(id)sender{
@@ -198,5 +250,16 @@
     if (self.scrollView.frame.size.width != 0 && self.scrollView.contentSize.width == self.scrollView.frame.size.width) {
         [self makeImages];
     }
+}
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView{
+    if (scrollView.contentOffset.x > scrollView.bounds.size.width){
+        double p = showIndex + (nextIndex - showIndex) * (scrollView.contentOffset.x / scrollView.bounds.size.width - 1);
+        [_pageControlAleppo setProgress:p];
+    }else{
+        double p = showIndex + (showIndex - perIndex) * (scrollView.contentOffset.x / scrollView.bounds.size.width - 1);
+        [_pageControlAleppo setProgress:p];
+    }
+//    [_pageControlAleppo setProgress:scrollView.contentOffset.x / scrollView.bounds.size.width];
 }
 @end

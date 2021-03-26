@@ -48,8 +48,13 @@
 }
 
 - (void)setup{
-    self.currentPageIndicatorTintColor = UIColorFromRGB(0xc8c8c8);
-    self.tintColor = UIColorFromRGB(0x858585);
+//    self.currentPageIndicatorTintColor = UIColorFromRGB(0xc8c8c8);
+//    self.tintColor = UIColorFromRGB(0x858585);
+    if (@available(iOS 14, *)) {
+        NSBundle *b = [NSBundle bundleWith:[self class] fileName:@"PWPageControl_selected.png" fileType:@""];
+        UIImage *image = [UIImage imageNamed:@"PWPageControl_unselected.png" inBundle:b compatibleWithTraitCollection:nil];
+        self.preferredIndicatorImage = image;
+    }
 }
 
 - (void)layoutSubviews
@@ -58,24 +63,43 @@
 //    [self updateFrame];
 }
 
+- (void)setNumberOfPages:(NSInteger)numberOfPages{
+    if (numberOfPages != self.numberOfPages){
+        [super setNumberOfPages:numberOfPages];
+        [self setImage];
+    }
+}
+
 - (void)setCurrentPage:(NSInteger)currentPage{
-    [super setCurrentPage:currentPage];
+    if (currentPage != self.currentPage){
+        [super setCurrentPage:currentPage];
+        [self setImage];
+    }
+}
+
+- (void)setImage{
     NSBundle *b = [NSBundle bundleWith:[self class] fileName:@"PWPageControl_selected.png" fileType:@""];
     if (b != nil) {
         if (@available(iOS 14, *)) {
-            self.currentPageIndicatorTintColor = UIColorFromRGB(0xc8c8c8);
-            self.pageIndicatorTintColor = UIColorFromRGB(0x848484);
+//            self.currentPageIndicatorTintColor = UIColorFromRGB(0xc8c8c8);
+//            self.pageIndicatorTintColor = UIColorFromRGB(0x848484);
+            for(int i = 0 ; i < self.numberOfPages ; i ++){
+                if (self.currentPage == i){
+                    UIImage *image = [UIImage imageNamed:@"PWPageControl_selected.png" inBundle:b compatibleWithTraitCollection:nil];
+                    [self setIndicatorImage:image forPage:i];
+                }
+                
+            }
         }else{
             [self setValue:[UIImage imageNamed:@"PWPageControl_selected.png" inBundle:b compatibleWithTraitCollection:nil] forKeyPath:@"_currentPageImage"];
             [self setValue:[UIImage imageNamed:@"PWPageControl_unselected.png" inBundle:b compatibleWithTraitCollection:nil] forKeyPath:@"_pageImage"];
         }
+        [self updateFrame];
     }
-    [self updateFrame];
 }
 
 - (void)updateFrame{
     //计算圆点尺寸和间距的长度
-    
 //    CGFloat marginX = kDotW + kMagrin;
     
     //计算整个pageControll的宽度
@@ -91,10 +115,15 @@
     
     //遍历subview,设置圆点frame
     CGFloat x = leftRight;
-    for (int i=0; i<[self.subviews count]; i++) {
-        UIImageView* dot = [self.subviews objectAtIndex:i];
-        [dot setFrame:CGRectMake(x, dot.frame.origin.y, ((self.currentPage == i) ? kDotW2 : kDotW), kDotH)];
-        x = x + ((self.currentPage == i) ? kDotW2 : kDotW) + kMagrin;
+    if (@available(iOS 14, *)) {
+       
+    }else{
+        for (int i=0; i<[self.subviews count]; i++) {
+            UIImageView* dot = [self.subviews objectAtIndex:i];
+            [dot setFrame:CGRectMake(x, dot.frame.origin.y, ((self.currentPage == i) ? kDotW2 : kDotW), kDotH)];
+            x = x + ((self.currentPage == i) ? kDotW2 : kDotW) + kMagrin;
+        }
     }
+    
 }
 @end

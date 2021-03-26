@@ -16,8 +16,8 @@ Pod::Spec.new do |s|
   s.author       = { "PW" => "66682060@qq.com" }
 
 
-  s.platform     = :ios, "8.0"
-  s.ios.deployment_target = "8.0"
+  s.platform     = :ios, "10.0"
+  s.ios.deployment_target = "10.0"
 
 
   s.source           = { :git => 'https://github.com/wnrz/PWUtils.git', :tag => s.version.to_s }
@@ -30,7 +30,7 @@ Pod::Spec.new do |s|
 
 
   s.subspec 'PWUtils' do |ss|#
-    ss.source_files = 'PWUtils/PWKit/**/*.{h,m,c}'
+    ss.source_files = 'PWUtils/PWKit/**/*.{h,m,c,swift}'
     ss.ios.frameworks = 'UIKit', 'Foundation'
   end
 
@@ -49,6 +49,9 @@ Pod::Spec.new do |s|
   s.dependency 'MBProgressHUD', '1.1.0'
   s.dependency 'YYKit', '~> 1.0.9'
   s.dependency 'SDWebImage'
+  s.dependency 'CHIPageControl', '~> 0.1.3'
+  s.dependency 'SCPageControl'
+  s.dependency 'SnapKit'
 
 #  s.pod_target_xcconfig = {
 ##    'CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES' => 'YES',

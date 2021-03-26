@@ -9,7 +9,6 @@
 #import <UIKit/UIKit.h>
 
 #import "PWTabButtonView.h"
-#import "PWBaseView.h"
 
 //! Project version number for GWKit.
 FOUNDATION_EXPORT double PWKitVersionNumber;
