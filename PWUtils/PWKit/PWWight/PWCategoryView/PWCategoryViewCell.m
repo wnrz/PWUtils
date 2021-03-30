@@ -8,10 +8,30 @@
 #import "PWCategoryViewCell.h"
 #import "UIImage+MyImage.h"
 #import "BaseTool.h"
+#import "NSBundle+PWBundleTool.h"
 @import SDWebImage;
 
 @implementation PWCategoryViewCell
 
+- (instancetype)initWithFrame:(CGRect)frame{
+    NSBundle * bundle = [NSBundle bundleWith:[PWCategoryViewCell class] fileName:@"PWCategoryViewCell" fileType:@"nib"];
+    if (bundle){
+        return [bundle loadNibNamed:@"PWCategoryViewCell" owner:self options:nil][0];
+    }else{
+        return [super initWithFrame:frame];
+    }
+}
+
+- (instancetype)init{
+    self = [super init];
+    return self;
+}
+
+- (instancetype)initWithCoder:(NSCoder *)coder{
+    self = [super initWithCoder:coder];
+    
+    return self;
+}
 - (void)awakeFromNib {
     [super awakeFromNib];
     // Initialization code
